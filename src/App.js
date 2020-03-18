@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 
 function App() {
+  const [beers, setBeers] = useState();
+  useEffect(() => {
+    const abortController = new AbortController();
+    const abortSignal = abortController.signal;
+    fetch('https://api.punkapi.com/v2/beers', {signal: abortSignal})
+    .then(response => response.json())
+    .then(setBeers)
+    .catch(err => err)
+    return () => abortController.abort();
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {beers?.map(beer => <div key={beer.id}>{beer.name}</div>)}
     </div>
   );
 }
