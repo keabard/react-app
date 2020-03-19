@@ -6,7 +6,7 @@ function App() {
   useEffect(() => {
     const abortController = new AbortController();
     const abortSignal = abortController.signal;
-    fetch('https://api.punkapi.com/v2/badoit', {signal: abortSignal})
+    fetch('https://api.punkapi.com/v2/perrier', {signal: abortSignal})
     .then(response => response.json())
     .then(setBeers)
     .catch(err => err)
